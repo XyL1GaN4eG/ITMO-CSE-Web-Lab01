@@ -1,70 +1,74 @@
 document.addEventListener('DOMContentLoaded', () => {
-
+    // Инициализация
     const sendBtn = document.getElementById('send-btn');
     const yInput = document.getElementById('y-value');
     const rInput = document.getElementById('r-value');
     const yError = document.getElementById('y-error');
     const rError = document.getElementById('r-error');
+    const xCheckboxes = document.querySelectorAll('#x-values input[type="checkbox"]');
+    const yLowLimit = -5;
+    const yHighLimit = 3;
+    const rLowLimit = 1;
+    const rHighLimit = 4;
 
-    // Флаги для отслеживания, взаимодействовал ли пользователь с полем
-    let yTouched = false;
-    let rTouched = false;
+    let isXValid = false;
+    let isYValid = false;
+    let isRValid = false;
+    let yTouched = false; // Флаг для поля Y
+    let rTouched = false; // Флаг для поля R
 
-    // Функция для проверки валидности Y
-    function validateY() {
-        const yValue = parseFloat(yInput.value);
-        if ((yTouched || yInput.value !== "") && (isNaN(yValue) || yValue < -5 || yValue > 3)) {
-            yError.textContent = "Введите число от -5 до 3";
-            yError.style.display = "block"; // Показываем ошибку, если поле некорректно
-            yInput.classList.add('invalid');
-            return false; // Неправильное значение
-        } else {
-            yError.style.display = "none"; // Скрываем ошибку
-            yInput.classList.remove('invalid');
-            return true; // Корректное значение
-        }
+    // Функция для проверки чекбоксов X
+    function validateX() {
+        let isChecked = false;
+        xCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                isChecked = true;
+            }
+        });
+        return isChecked;
     }
 
-    // Функция для проверки валидности R
-    function validateR() {
-        const rValue = parseFloat(rInput.value);
-        if ((rTouched || rInput.value !== "") && (isNaN(rValue) || rValue < 1 || rValue > 4)) {
-            rError.textContent = "Введите число от 1 до 4";
-            rError.style.display = "block"; // Показываем ошибку, если поле некорректно
-            rInput.classList.add('invalid');
-            return false; // Неправильное значение
-        } else {
-            rError.style.display = "none"; // Скрываем ошибку
-            rInput.classList.remove('invalid');
-            return true; // Корректное значение
-        }
+    // Универсальная функция для валидации числовых полей
+    function validateVar(inputElement, errorElement, minValue, maxValue, touched) {
+        return function () {
+            const value = parseFloat(inputElement.value);
+            if (touched && (isNaN(value) || value < minValue || value > maxValue)) {
+                errorElement.textContent = "Введите число от " + minValue + " до " + maxValue;
+                errorElement.style.display = "block";
+                inputElement.classList.add('invalid');
+                return false;
+            } else {
+                errorElement.style.display = "none";
+                inputElement.classList.remove('invalid');
+                return true;
+            }
+        };
     }
 
-    // Общая функция валидации для обоих полей
+    // Общая функция валидации для всех полей
     function validateInputs() {
-        const isYValid = validateY();
-        const isRValid = validateR();
+        isYValid = validateVar(yInput, yError, yLowLimit, yHighLimit, yTouched)();
+        isRValid = validateVar(rInput, rError, rLowLimit, rHighLimit, rTouched)();
+        isXValid = validateX();
 
-        // Блокируем или разблокируем кнопку "Отправить" в зависимости от валидации
-        sendBtn.disabled = !(isYValid && isRValid); // Кнопка разблокируется, если оба поля валидны
+        sendBtn.disabled = !(isRValid && isXValid && isYValid); // Блокируем кнопку, если что-то невалидно
     }
 
-    // Добавляем событие фокусировки на поле Y
-    yInput.addEventListener('focus', () => {
-        yTouched = true; // Устанавливаем флаг, что поле Y было затронуто
-        validateInputs(); // Проверяем значения
+    // Добавляем обработчики событий
+    yInput.addEventListener('input', () => {
+        yTouched = true; // Флаг, что пользователь начал взаимодействовать с полем Y
+        validateInputs();
     });
 
-    // Добавляем событие фокусировки на поле R
-    rInput.addEventListener('focus', () => {
-        rTouched = true; // Устанавливаем флаг, что поле R было затронуто
-        validateInputs(); // Проверяем значения
+    rInput.addEventListener('input', () => {
+        rTouched = true; // Флаг, что пользователь начал взаимодействовать с полем R
+        validateInputs();
     });
 
-    // Добавляем обработчики событий на ввод для Y и R
-    yInput.addEventListener('input', validateInputs);
-    rInput.addEventListener('input', validateInputs);
+    xCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', validateInputs);
+    });
 
-    // Начальная проверка для блокировки кнопки при загрузке страницы
+    // Начальная проверка полей, но без отображения ошибок
     validateInputs();
 });
