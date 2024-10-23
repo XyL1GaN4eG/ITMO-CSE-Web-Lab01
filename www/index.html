@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Одностраничник</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <span>P3215</span>
+    <span>Жук И. А.</span>
+    <span>ЛАБ1</span>
+</header>
+
+<div class="control-block">
+    <h2>Управление</h2>
+    <button id="reset-btn">Сброс</button>
+    <form id="control-form">
+        <div class="form-group">
+            <label for="x-values">X:</label>
+            <div id="x-values">
+                <input type="checkbox" id="x-4" name="x" value="-4"><label for="x-4">-4</label>
+                <input type="checkbox" id="x-3" name="x" value="-3"><label for="x-3">-3</label>
+                <input type="checkbox" id="x-2" name="x" value="-2"><label for="x-2">-2</label>
+                <input type="checkbox" id="x-1" name="x" value="-1"><label for="x-1">-1</label>
+                <input type="checkbox" id="x0" name="x" value="0"><label for="x0">0</label>
+                <input type="checkbox" id="x1" name="x" value="1"><label for="x1">1</label>
+                <input type="checkbox" id="x2" name="x" value="2"><label for="x2">2</label>
+                <input type="checkbox" id="x3" name="x" value="3"><label for="x3">3</label>
+                <input type="checkbox" id="x4" name="x" value="4"><label for="x4">4</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="y-value">Y:</label>
+            <input type="text" id="y-value" name="y" placeholder="Введите значение от -5 до 3">
+            <span class="error-message" id="y-error"></span> <!-- Сообщение об ошибке для Y -->
+        </div>
+
+        <div class="form-group">
+            <label for="r-value">R:</label>
+            <input type="text" id="r-value" name="r" placeholder="Введите значение (1, 4)">
+            <span class="error-message" id="r-error"></span> <!-- Сообщение об ошибке для R -->
+        </div>
+    </form>
+    <button id="send-btn">Отправить</button>
+</div>
+
+<div id="graphBlock">
+    <img id="graph" src="resources/graph.svg" width="600" height="400">
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

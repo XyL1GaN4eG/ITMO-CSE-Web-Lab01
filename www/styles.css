@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.control-block {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #000;
+    margin: 20px 0;
+}
+
+h2 {
+    display: inline-block;
+    margin: 0;
+}
+
+#reset-btn {
+    float: right;
+    padding: 5px 10px;
+}
+
+.form-group {
+    margin: 15px 0;
+}
+
+#x-values label {
+    margin-right: 10px;
+}
+
+#y-value, #r-value {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    display: none; /* Скрываем по умолчанию */
+    margin-top: 5px;
+}
+
+.invalid {
+    border: 1px solid red; /* Красная рамка для некорректных полей */
+}
