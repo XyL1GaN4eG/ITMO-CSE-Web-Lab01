@@ -32,15 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function validateVar(inputElement, errorElement, minValue, maxValue, touched) {
         return function () {
             const value = parseFloat(inputElement.value);
-            if (touched && (isNaN(value) || value < minValue || value > maxValue)) {
-                errorElement.textContent = "Введите число от " + minValue + " до " + maxValue;
-                errorElement.style.display = "block";
-                inputElement.classList.add('invalid');
-                return false;
+            if (touched) {
+                if (isNaN(value) || value < minValue || value > maxValue) {
+                    errorElement.textContent = "Введите число от " + minValue + " до " + maxValue;
+                    errorElement.style.display = "block";
+                    inputElement.classList.add('invalid');
+                    return false;
+                } else {
+                    errorElement.style.display = "none";
+                    inputElement.classList.remove('invalid');
+                    return true;
+                }
             } else {
-                errorElement.style.display = "none";
-                inputElement.classList.remove('invalid');
-                return true;
+                return false
             }
         };
     }
@@ -51,7 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
         isRValid = validateVar(rInput, rError, rLowLimit, rHighLimit, rTouched)();
         isXValid = validateX();
 
-        sendBtn.disabled = !(isRValid && isXValid && isYValid); // Блокируем кнопку, если что-то невалидно
+        console.log(isXValid, isYValid, isRValid);
+        sendBtn.disabled = !(isXValid && isYValid && isRValid); // Блокируем кнопку, если что-то невалидно
     }
 
     // Добавляем обработчики событий
@@ -71,4 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Начальная проверка полей, но без отображения ошибок
     validateInputs();
+
+
 });
