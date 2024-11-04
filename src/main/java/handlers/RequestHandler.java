@@ -46,7 +46,7 @@ public class RequestHandler {
 
     private void handlePOST() {
 
-        var requestsArray = getVars();
+        var requestsArray = getRequestData();
 
         var responseArr = getResponseData(requestsArray);
         var response = responseArrayToJSON(responseArr);
@@ -70,11 +70,11 @@ public class RequestHandler {
     private ArrayList<ResponseData> getResponseData(RequestData requestsArray) {
         var response = new ResponseData();
         var responseArr = new ArrayList<ResponseData>();
-        for (int x : requestsArray.getX()) {
+        for (int x : requestsArray.x()) {
             long startTime = System.nanoTime();
             response = new ResponseData(x,
-                    requestsArray.getY(),
-                    requestsArray.getR());
+                    requestsArray.y(),
+                    requestsArray.r());
             response.setIn(areaCheck.validate(response));
             response.setExecutionTime(System.nanoTime() - startTime);
             response.setServerTime(LocalDateTime.now().format(yyyymmddhhmmss));
@@ -107,7 +107,7 @@ public class RequestHandler {
         }
     }
 
-    private RequestData getVars() {
+    private RequestData getRequestData() {
         try {
             request.inStream.fill();
             var contentLength = request.inStream.available();
