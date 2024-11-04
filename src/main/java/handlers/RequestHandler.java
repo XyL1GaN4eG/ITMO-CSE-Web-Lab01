@@ -1,0 +1,130 @@
+package handlers;
+
+import com.fastcgi.FCGIRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import data.RequestData;
+import data.ResponseData;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+import static consts.Consts.*;
+
+public class RequestHandler {
+    private final AreaCheck areaCheck = new AreaCheck();
+    private boolean isIn;
+    private final DateTimeFormatter yyyymmddhhmmss = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private FCGIRequest request;
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+
+    public void handleRequest(FCGIRequest request) {
+        try {
+            var params = request.params;
+            //todo: нормальная ошибка
+            if (params == null) {
+                sendError("Ну я хз рял");
+                return;
+            }
+            this.request = request;
+
+            if (params.getProperty("REQUEST_METHOD").equals("POST")) {
+                handlePOST();
+            }
+
+            sendError("Метод не тот!!");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void handlePOST() {
+
+        var requestsArray = getVars();
+
+        var responseArr = getResponseData(requestsArray);
+        var response = responseArrayToJSON(responseArr);
+
+        try {
+            request.outStream.write(response.getBytes(StandardCharsets.UTF_8));
+            request.outStream.flush();
+        } catch (IOException e) {
+            sendError(e);
+        }
+    }
+
+    private String responseArrayToJSON(ArrayList<ResponseData> responseArr) {
+        var json = gson.toJson(responseArr);
+        return String.format(
+                HTTP_RESPONSE,
+                json.getBytes(StandardCharsets.UTF_8).length, json
+        );
+    }
+
+    private ArrayList<ResponseData> getResponseData(RequestData requestsArray) {
+        var response = new ResponseData();
+        var responseArr = new ArrayList<ResponseData>();
+        for (int x : requestsArray.getX()) {
+            long startTime = System.nanoTime();
+            response = new ResponseData(x,
+                    requestsArray.getY(),
+                    requestsArray.getR());
+            response.setIn(areaCheck.validate(response));
+            response.setExecutionTime(System.nanoTime() - startTime);
+            response.setServerTime(LocalDateTime.now().format(yyyymmddhhmmss));
+            responseArr.add(response);
+        }
+        return responseArr;
+    }
+
+    //TODO: Убрать отправку джава ошибки на клиент после дебага
+    private void sendError(Exception e) {
+        try {
+            String json = String.format(ERROR_JSON, e.getMessage()).trim();
+            String response = String.format(HTTP_ERROR, json.getBytes(StandardCharsets.UTF_8).length, json);
+            request.outStream.write(response.getBytes(StandardCharsets.UTF_8));
+            request.outStream.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void sendError(String msg) {
+        try {
+            //todo: нормальная ошибка пожалуйста
+            String json = String.format(ERROR_JSON, "пук пук ниче не выполнилось т.к. " + msg).trim();
+            String response = String.format(HTTP_ERROR, json.getBytes(StandardCharsets.UTF_8).length, json);
+            request.outStream.write(response.getBytes(StandardCharsets.UTF_8));
+            request.outStream.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private RequestData getVars() {
+        try {
+            request.inStream.fill();
+            var contentLength = request.inStream.available();
+            var buffer = ByteBuffer.allocate(contentLength);
+            var readBytes = request.inStream.read(
+                    buffer.array(),
+                    0,
+                    contentLength);
+            var requestBodyRaw = new byte[readBytes];
+            buffer.get(requestBodyRaw);
+            buffer.clear();
+            String requestString = new String(requestBodyRaw, StandardCharsets.UTF_8);
+
+            RequestData data = gson.fromJson(requestString, RequestData.class);
+            return data;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
