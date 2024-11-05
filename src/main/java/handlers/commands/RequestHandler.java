@@ -21,14 +21,17 @@ public class RequestHandler {
     public void handleRequest(FCGIRequest request) {
         var params = request.params;
         var requestMethod = params.getProperty("REQUEST_METHOD");
+        this.request = request;
         log.info("Получен реквест со следующим методом: {}", requestMethod);
-
         try {
             HttpCommand command = chooseHTTPMethod(requestMethod, request);
             var response = command.execute();
             if (response != null) {
                 String json = responseArrayToJSON(response);
+                log.info("Получили непустой ответ: {}, начинаем отправлять", json);
                 sendResponse(json);
+            } else {
+                log.info("Обработан запрос, не нуждающийся в ответе");
             }
         } catch (InvalidRequestException e) {
             sendError(e.getMessage());
