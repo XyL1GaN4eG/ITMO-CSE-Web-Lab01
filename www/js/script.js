@@ -57,35 +57,37 @@ function validateInputs() {
 }
 
 sendBtn.addEventListener("click", async (event) => {
+    event.preventDefault(); // предотвращаем стандартное поведение кнопки
+    try {
+        let x_values = [];
+        document.querySelectorAll('#x-values > input:checked').forEach((element) => {
+            x_values.push(element.value);
+        });
 
-    let x_values = [];
+        let obj = {
+            x_array: x_values,
+            y: yInput.value,
+            r: rInput.value
+        };
+        console.log(JSON.stringify(obj))
 
-    document
-        .querySelectorAll(
-            '#x-values > input:checked'
-        )
-        .forEach((element)  => {
-            x_values.push(
-                element.value
-            )}
-        )
+        let response = await fetch("/fcgi-bin/hello-world.jar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }, // Добавьте Content-Type для JSON
+            body: JSON.stringify(obj)
+        });
 
-    let obj = {
-        x_array: x_values,
-        y: yInput.value,
-        r: rInput.value
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        console.log(await response.text());
+
+    } catch (error) {
+        console.error("Fetch error: ", error);
     }
+});
 
-    //todo: удалить консоль лог
-    console.log(JSON.stringify(obj))
-    let response = await fetch("/fcgi-bin/hello-world.jar", {
-        method: "POST",
-        body: JSON.stringify(obj)
-    })
-
-    console.log(await response.text())
-
-})
 
 yInput.addEventListener('input', () => {
     yTouched = true; // Флаг, что пользователь начал взаимодействовать с полем Y
