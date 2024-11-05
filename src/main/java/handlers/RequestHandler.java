@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import data.RequestData;
 import data.ResponseData;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import static consts.Consts.*;
 
+@Slf4j
 public class RequestHandler {
     private final AreaCheck areaCheck = new AreaCheck();
     private boolean isIn;
@@ -24,23 +26,26 @@ public class RequestHandler {
 
 
     public void handleRequest(FCGIRequest request) {
-        try {
-            var params = request.params;
-            //todo: нормальная ошибка
-            if (params == null) {
-                sendError("Ну я хз рял");
-                return;
-            }
-            this.request = request;
-
-            if (params.getProperty("REQUEST_METHOD").equals("POST")) {
-                handlePOST();
-            }
-
-            sendError("Метод не тот!!");
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        log.info("получен следующий реквест: {}", request);
+//        try {
+        sendError("cvb");
+        System.out.println("asd");
+//            var params = request.params;
+//            //todo: нормальная ошибка
+//            if (params == null) {
+//                sendError("Ну я хз рял");
+//                return;
+//            }
+//            this.request = request;
+//
+//            if (params.getProperty("REQUEST_METHOD").equals("POST")) {
+//                handlePOST();
+//            }
+//
+//            sendError("Метод не тот!!");
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -76,8 +81,8 @@ public class RequestHandler {
                     requestsArray.y(),
                     requestsArray.r());
             response.setIn(areaCheck.validate(response));
-            response.setExecutionTime(System.nanoTime() - startTime);
             response.setServerTime(LocalDateTime.now().format(yyyymmddhhmmss));
+            response.setExecutionTime(System.nanoTime() - startTime);
             responseArr.add(response);
         }
         return responseArr;
@@ -100,6 +105,7 @@ public class RequestHandler {
             //todo: нормальная ошибка пожалуйста
             String json = String.format(ERROR_JSON, "пук пук ниче не выполнилось т.к. " + msg).trim();
             String response = String.format(HTTP_ERROR, json.getBytes(StandardCharsets.UTF_8).length, json);
+            System.out.println(response);
             request.outStream.write(response.getBytes(StandardCharsets.UTF_8));
             request.outStream.flush();
         } catch (IOException ex) {
