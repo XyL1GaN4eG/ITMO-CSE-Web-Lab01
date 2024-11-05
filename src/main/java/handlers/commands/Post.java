@@ -81,7 +81,12 @@ public class Post implements HttpCommand {
             log.info("Строка успешно привелась к объекту: {}", data.toString());
             return data;
         } catch (NullPointerException | IOException e) {
+            log.error("ошибка хз ", e);
             throw new InvalidRequestException("Invalid JSON");
+        } catch (NumberFormatException ex) {
+            log.error("Получено некорректное число: ", ex);
+            throw new InvalidRequestException("Invalid Number");
+
         }
     }
 
