@@ -2,6 +2,7 @@ package handlers;
 
 import com.google.gson.*;
 import data.RequestData;
+import lombok.Getter;
 
 import java.lang.reflect.Type;
 

@@ -1,5 +1,5 @@
 import com.fastcgi.FCGIInterface;
-import handlers.RequestHandler;
+import handlers.commands.RequestHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
