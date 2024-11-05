@@ -85,7 +85,7 @@ public class Post implements HttpCommand {
             throw new InvalidRequestException("Invalid JSON");
         } catch (NumberFormatException ex) {
             log.error("Получено некорректное число: ", ex);
-            throw new InvalidRequestException("Invalid Number");
+            throw new InvalidRequestException("Invalid input format: Floating-point precision too high.");
 
         }
     }
