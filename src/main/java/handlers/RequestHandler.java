@@ -19,48 +19,57 @@ import static consts.Consts.*;
 @Slf4j
 public class RequestHandler {
     private final AreaCheck areaCheck = new AreaCheck();
-    private boolean isIn;
     private final DateTimeFormatter yyyymmddhhmmss = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private FCGIRequest request;
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    Gson gson = new GsonBuilder()
+            .registerTypeAdapter(RequestData.class, new RequestDataAdapter()) //используем кастомный
+            .setPrettyPrinting()
+            .create();
 
 
     public void handleRequest(FCGIRequest request) {
         log.info("получен следующий реквест: {}", request);
-//        try {
-        sendError("cvb");
-        System.out.println("asd");
-//            var params = request.params;
-//            //todo: нормальная ошибка
-//            if (params == null) {
-//                sendError("Ну я хз рял");
-//                return;
-//            }
-//            this.request = request;
-//
-//            if (params.getProperty("REQUEST_METHOD").equals("POST")) {
-//                handlePOST();
-//            }
-//
-//            sendError("Метод не тот!!");
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-//        }
+        var params = request.params;
+        //todo: нормальная ошибка
 
+        var requestMethod = params.getProperty("REQUEST_METHOD");
+        log.info("Получен реквест со следующим методом: {}", requestMethod);
+        this.request = request;
+        switch (requestMethod) {
+            case "POST" -> handlePOST();
+            case "GET" -> handleGET();
+            default -> sendError("Пришел неизвестный метод");
+        }
+    }
+
+    //todo: дописать метод
+    private void handleGET() {
+        log.info("Начинаем обрабатывать get запрос");
     }
 
     private void handlePOST() {
-
+        log.info("Начинаем обрбатывать post запрос");
+        log.info("Попытка getRequestData()");
         var requestsArray = getRequestData();
+        try {
+            log.info("Распарсили реквест: {}", requestsArray.toString());
+        } catch (NullPointerException e) {
+            log.error("Ошибка при парсинге requestsArray: ", e);
+        }
 
         var responseArr = getResponseData(requestsArray);
         var response = responseArrayToJSON(responseArr);
 
+        log.info("Провалидировали данные: \n{}", response);
+
         try {
+            log.info("Попытка записать полученные данные в request.outStream");
             request.outStream.write(response.getBytes(StandardCharsets.UTF_8));
+            log.info("Попытка смыть данные: request.outStream.flush()");
             request.outStream.flush();
+
         } catch (IOException e) {
-            sendError(e);
+            log.error("Произошла ошибка при записи/смыве данных: {}", e.getMessage());
         }
     }
 
@@ -88,18 +97,6 @@ public class RequestHandler {
         return responseArr;
     }
 
-    //TODO: Убрать отправку джава ошибки на клиент после дебага
-    private void sendError(Exception e) {
-        try {
-            String json = String.format(ERROR_JSON, e.getMessage()).trim();
-            String response = String.format(HTTP_ERROR, json.getBytes(StandardCharsets.UTF_8).length, json);
-            request.outStream.write(response.getBytes(StandardCharsets.UTF_8));
-            request.outStream.flush();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     private void sendError(String msg) {
         try {
             //todo: нормальная ошибка пожалуйста
@@ -109,7 +106,7 @@ public class RequestHandler {
             request.outStream.write(response.getBytes(StandardCharsets.UTF_8));
             request.outStream.flush();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            log.error("Ошибка при отправке исключения {} на клиент: ", msg, ex);
         }
     }
 
@@ -126,11 +123,17 @@ public class RequestHandler {
             buffer.get(requestBodyRaw);
             buffer.clear();
             String requestString = new String(requestBodyRaw, StandardCharsets.UTF_8);
-
+            log.info("Получили следующую строку при попытке парсинга: {}", requestString);
             RequestData data = gson.fromJson(requestString, RequestData.class);
             return data;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("Ошибка при парсинге RequestData: ", e);
+
+            //создаем реквестдату которая точно не попадет в промежуток в случае ошибки парсинга
+            return new RequestData(
+                    new int[]{-20},
+                    -20,
+                    -20);
         }
     }
 }
