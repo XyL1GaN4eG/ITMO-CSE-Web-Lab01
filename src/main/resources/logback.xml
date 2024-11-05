@@ -1,12 +1,4 @@
 <configuration>
-
-    <!-- Консольный аппендер (для вывода логов в консоль) -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
     <!-- Файловый аппендер (для записи логов в файл) -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>logs/app.log</file> <!-- Путь к файлу лога -->
@@ -16,9 +8,8 @@
         </encoder>
     </appender>
 
-    <!-- Логгер уровня DEBUG и выше для записи в файл и консоль -->
+<!--     Логгер уровня DEBUG и выше для записи в файл и консоль-->
     <root level="DEBUG">
-        <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </root>
 
