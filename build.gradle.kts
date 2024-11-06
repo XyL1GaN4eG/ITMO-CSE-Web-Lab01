@@ -51,9 +51,9 @@ tasks.create("deploy") {
     }
 }
 
-tasks.create("updateFrontend") {
-    exec {
-        workingDir(".")
-        commandLine("bash", "updFront.sh")
-    }
-}
+//tasks.create("updateFrontend") {
+//    exec {
+//        workingDir(".")
+//        commandLine("bash", "updFront.sh")
+//    }
+//}

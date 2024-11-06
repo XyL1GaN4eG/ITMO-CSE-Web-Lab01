@@ -10,13 +10,12 @@ const rLowLimit = 1;
 const rHighLimit = 4;
 const url = "/fcgi-bin/hello-world.jar"
 
-
-
 let isXValid = false;
 let isYValid = false;
 let isRValid = false;
 let yTouched = false; // Флаг для поля Y
 let rTouched = false; // Флаг для поля R
+
 
 function validateX() {
     let isChecked = false;

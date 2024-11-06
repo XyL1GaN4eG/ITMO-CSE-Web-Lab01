@@ -1,13 +1,38 @@
+:root {
+    --text-color: #030303;
+    --first-letter-color: #de3030;
+    --background-color: #ffffffa0;
+    --error-text-color: #b60e0e;
+}
+
 body {
     font-family: Arial, sans-serif;
+    background-image: url('resources/background.gif');
+    background-size: cover;
+    background-position: center; /* Центрирование фона по горизонтали */
+    background-repeat: repeat; /* Отключение повторения фона */
+
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+
+.main-content {
+    display: flex;
 }
 
 .control-block {
-    width: 300px;
-    padding: 20px;
-    border: 1px solid #000;
-    margin: 20px 0;
+    width: 40%;
+    margin: 5%;
+    /*padding: 25% 3% 3%;*/
 }
+
+#graphBlock {
+    width: 40%;
+    margin: 5%;
+}
+
 
 h2 {
     display: inline-block;
@@ -15,33 +40,31 @@ h2 {
 }
 
 #reset-btn {
+    /*text-align: right;*/
+    /*padding: 5% 10%;*/
     float: right;
-    padding: 5px 10px;
 }
 
 .form-group {
-    margin: 15px 0;
-}
-
-#x-values label {
-    margin-right: 10px;
+    margin: 3%;
 }
 
 #y-value, #r-value {
     width: 100%;
-    padding: 5px;
-    margin-top: 5px;
+    padding: 2%;
+    margin-top: 2%;
 }
 
 .error-message {
     color: red;
-    font-size: 12px;
+    font-size: 15px;
     display: none; /* Скрываем по умолчанию */
     margin-top: 5px;
 }
 
 .invalid {
-    border: 1px solid red; /* Красная рамка для некорректных полей */
+    /* Красная рамка для некорректных полей */
+    border-color: red;
 }
 
 .data-table {
@@ -57,4 +80,82 @@ h2 {
 
 .data-table th {
     background-color: #f2f2f2;
+}
+
+header {
+    background: white;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    z-index: 10000;
+
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--text-color);
+
+    padding: 15px 25%;
+    box-sizing: border-box;
+    border-bottom: 2px solid black;
+    margin-bottom: 30px;
+}
+
+header span {
+    white-space: nowrap;
+}
+
+/* Основной контейнер для окна */
+.macos-window {
+    width: 500px;
+    height: 480px;
+    background-color: white; /* Белый фон окна */
+    border-radius: 10px; /* Закругленные углы */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1), /* Тень под окном */
+    0px 2px 4px rgba(0, 0, 0, 0.06); /* Вторая, более мягкая тень */
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    position: relative;
+}
+
+/* Заголовок окна с иконками закрытия, свернуть и развернуть */
+.macos-title-bar {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f7; /* Светло-серый цвет заголовка */
+    height: 32px;
+    padding: 0 10px;
+    border-bottom: 1px solid #e0e0e0; /* Граница внизу заголовка */
+}
+
+/* Иконки управления окном */
+.macos-control-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+/* Стили для каждой кнопки */
+.macos-control-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Индивидуальные цвета кнопок */
+.macos-close { background-color: #ff605c; }
+.macos-minimize { background-color: #ffbd44; }
+.macos-fullscreen { background-color: #00ca4e; }
+
+/* Контент окна */
+.macos-content {
+    padding: 20px;
+    height: calc(100% - 32px); /* Высота с учетом заголовка */
+    overflow-y: auto;
+}
+
+.macos-window.resizable {
+    resize: both;
+    overflow: auto;
 }
