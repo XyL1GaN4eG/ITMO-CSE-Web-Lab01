@@ -27,7 +27,8 @@ public class RequestHandler {
             HttpCommand command = chooseHTTPMethod(requestMethod, request);
             var response = command.execute();
             if (response != null) {
-                String json = responseArrayToJSON(response);
+//                String json = responseArrayToJSON(response);
+                String json = stringToResponse();
                 log.info("Получили непустой ответ: {}, начинаем отправлять", json);
                 sendResponse(json);
             } else {
@@ -54,19 +55,29 @@ public class RequestHandler {
     }
 
     private void sendResponse(String response) {
-        try {
-            log.info("Попытка записать полученные данные в request.outStream");
-            request.outStream.write(response.getBytes(StandardCharsets.UTF_8));
-            log.info("Попытка смыть данные: request.outStream.flush()");
-            request.outStream.flush();
-            log.info("Данные отправлены без ошибок!");
-        } catch (IOException e) {
-            log.error("Произошла ошибка при отправлении данных на клиент: ", e);
-        }
+        System.out.println(response);
+//        try {
+//            log.info("Попытка записать полученные данные в request.outStream");
+//            request.outStream.write(response.getBytes(StandardCharsets.UTF_8));
+//            log.info("Попытка смыть данные: request.outStream.flush()");
+//            request.outStream.flush();
+//            log.info("Данные отправлены без ошибок!");
+//        } catch (IOException e) {
+//            log.error("Произошла ошибка при отправлении данных на клиент: ", e);
+//        }
     }
 
     private String responseArrayToJSON(List<ResponseData> responseArr) {
         var json = gson.toJson(responseArr);
+        return String.format(
+                HTTP_RESPONSE,
+                json.getBytes(StandardCharsets.UTF_8).length, json
+        );
+    }
+
+    private String stringToResponse() {
+//        var json = gson.toJson();
+        var json = "{\"x\": 1}";
         return String.format(
                 HTTP_RESPONSE,
                 json.getBytes(StandardCharsets.UTF_8).length, json
