@@ -1,7 +1,6 @@
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('.mac-os-control-wrapper').forEach((contentWrapper) => {
+document.querySelectorAll('.mac-os-control-wrapper').forEach((contentWrapper) => {
 
-
+    try {
         // Создаем основной контейнер окна
         const macWindow = document.createElement('div');
         macWindow.classList.add('macos-window');
@@ -39,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Добавляем элементы в macOS-окно
         macWindow.append(titleBar, contentContainer);
-    });
-
-
+    } catch {
+        alert("Zavupa")
+    }
 });
