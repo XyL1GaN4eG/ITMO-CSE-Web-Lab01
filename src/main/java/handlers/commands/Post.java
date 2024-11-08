@@ -23,9 +23,9 @@ public class Post implements HttpCommand {
     private final FCGIRequest request;
     private final AreaCheck areaCheck = new AreaCheck();
     private final DateTimeFormatter yyyymmddhhmmss = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//    private final Gson gson = new RequestDataAdapter().getInstance();
-    //todo: чекнуть работает ли при final
     private final History history = History.getInstance();
+
+    //for json to correct array
     private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(RequestData.class, new RequestDataAdapter()) //используем кастомный
             .setPrettyPrinting()
@@ -37,24 +37,17 @@ public class Post implements HttpCommand {
 
     @Override
     public List<ResponseData> execute() throws InvalidRequestException {
-        log.info("Начинаем обрабатывать POST запрос");
-
         RequestData requestsArray = getRequestData();
-        log.info("Распарсили реквест: {}", requestsArray);
-
-        var responseArr = getResponseData(requestsArray);
-
-        return responseArr;
+        return getResponseData(requestsArray);
     }
 
     private List<ResponseData> getResponseData(RequestData requestsArray) {
-        var response = new ResponseData();
+        var elementOfResponse = new ResponseData();
         var responseArr = new ArrayList<ResponseData>();
         for (int x : requestsArray.x()) {
-            response = createElementOfResponse(requestsArray, x);
-            history.add(response);
-            log.info("Респонс добавлен в историю");
-            responseArr.add(response);
+            elementOfResponse = createElementOfResponse(requestsArray, x);
+            history.add(elementOfResponse); // сохраняем в историю каждый обработанный элемент
+            responseArr.add(elementOfResponse);
         }
         return responseArr;
     }
@@ -81,12 +74,9 @@ public class Post implements HttpCommand {
             log.info("Строка успешно привелась к объекту: {}", data.toString());
             return data;
         } catch (NullPointerException | IOException e) {
-            log.error("ошибка хз ", e);
             throw new InvalidRequestException("Invalid JSON");
         } catch (NumberFormatException ex) {
-            log.error("Получено некорректное число: ", ex);
             throw new InvalidRequestException("Invalid input format: Floating-point precision too high.");
-
         }
     }
 

@@ -14,15 +14,12 @@ public class History {
     private static final History instance = new History();
     private final List<ResponseData> history = Collections.synchronizedList(new ArrayList<>());
 
-    // Метод для добавления нового респонса в историю
     public void add(ResponseData response) {
         history.add(response);
         log.info("Добавлен новый респонс в историю: {}", response);
     }
 
-    // Метод для получения всей истории респонсов
     public List<ResponseData> get() {
-        // Возвращаем копию списка для предотвращения изменений извне
         return history;
     }
 
