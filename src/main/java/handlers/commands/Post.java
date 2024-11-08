@@ -38,6 +38,7 @@ public class Post implements HttpCommand {
     @Override
     public List<ResponseData> execute() throws InvalidRequestException {
         RequestData requestsArray = getRequestData();
+        log.info("Строка успешно привелась к объекту: {}", requestsArray.toString());
         return getResponseData(requestsArray);
     }
 
@@ -70,9 +71,7 @@ public class Post implements HttpCommand {
             String requestString;
             requestString = readJSON();
             log.info("Получили следующий JSON при попытке чтения из буфера: {}", requestString);
-            RequestData data = gson.fromJson(requestString, RequestData.class);
-            log.info("Строка успешно привелась к объекту: {}", data.toString());
-            return data;
+            return gson.fromJson(requestString, RequestData.class);
         } catch (NullPointerException | IOException e) {
             throw new InvalidRequestException("Invalid JSON");
         } catch (NumberFormatException ex) {
