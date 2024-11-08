@@ -202,3 +202,6 @@ resetBtn.addEventListener('click', async () => {
         console.error("Delete request error: ", error);
     }
 });
+
+
+document.body.style.overflow = 'hidden'; // Отключаем прокрутку

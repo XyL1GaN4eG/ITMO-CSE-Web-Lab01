@@ -39,6 +39,6 @@ document.querySelectorAll('.mac-os-control-wrapper').forEach((contentWrapper) =>
         // Добавляем элементы в macOS-окно
         macWindow.append(titleBar, contentContainer);
     } catch {
-        alert("Zavupa")
+        // console.log()
     }
 });
