@@ -1,81 +1,31 @@
-# Compiled class files
+# Скомпилированные классы и артефакты сборки
+/build/
 *.class
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Virtual machine crash logs
-hs_err_pid*
-replay_pid*
-
-# Compiled source
-*.com
-*.dll
-*.exe
-*.o
-*.so
-
-# Packages
-*.7z
-*.dmg
-*.gz
-*.iso
 *.jar
-*.rar
-*.tar
-*.zip
 
-# Logs and databases
+# Логи
+/logs/
 *.log
 
-# OS generated files
-.DS_Store*
-ehthumbs.db
-Icon?
-Thumbs.db
-
-# Editor Files
-*~
-*.swp
-*.bak
-
-# Gradle Files
-.gradle
-.m2
-
-# Build output directories
-/target
-*/target
-/build
-*/build
-/out
-
-# IntelliJ specific files/directories
-.idea
-*.ipr
-*.iws
+# Настройки среды разработки
 *.iml
-atlassian-ide-plugin.xml
+.idea/
 
-# Eclipse specific files/directories
-.classpath
-.project
-.settings
-.metadata
-
-# Temporary files
+# Временные файлы
+/tmp/
 *.tmp
-*.temp
+*.bak
+*.swp
 
-# Environment files
-*.env
+# Файлы зависимостей
+/lib/
 
-# Logs
-logs/
-tmp/
+# Конфигурационные файлы
+gradle/wrapper/gradle-wrapper.properties
 
-# Other IDE specific files
-.vscode/
+# Сгенерированные файлы
+/build/generated/
+
+.gradle
+
+*.DS_STORE
