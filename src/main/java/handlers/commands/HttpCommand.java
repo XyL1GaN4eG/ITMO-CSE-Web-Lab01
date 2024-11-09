@@ -5,6 +5,7 @@ import exceptions.InvalidRequestException;
 
 import java.util.List;
 
-public interface HttpCommand {
-    List<ResponseData> execute() throws InvalidRequestException;
+public abstract class HttpCommand {
+    protected final History history = History.getInstance();
+    abstract List<ResponseData> execute() throws InvalidRequestException;
 }

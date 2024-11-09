@@ -19,11 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class Post implements HttpCommand {
+public class Post extends HttpCommand {
     private final FCGIRequest request;
     private final AreaCheck areaCheck = new AreaCheck();
     private final DateTimeFormatter yyyymmddhhmmss = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private final History history = History.getInstance();
 
     //for json to correct array
     private final Gson gson = new GsonBuilder()

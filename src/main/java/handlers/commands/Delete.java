@@ -4,8 +4,7 @@ import data.ResponseData;
 
 import java.util.List;
 
-public class Delete implements HttpCommand {
-    private final History history = History.getInstance();
+public class Delete extends HttpCommand {
 
     @Override
     public List<ResponseData> execute() {
