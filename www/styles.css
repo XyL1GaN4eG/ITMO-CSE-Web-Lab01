@@ -17,12 +17,15 @@ body {
     margin: 0;
 }
 
-.rabbit {
+.gifs {
     position: absolute;
-    top: 20%; /* Позиция по вертикали */
-    left: 50%; /* Позиция по горизонтали */
-    transform: translate(-50%, +100%); /* Центрируем изображение */
+    z-index: -10; /* За основным контентом */
+}
+
+.gifs img {
+    position: absolute; /* Устанавливаем абсолютное позиционирование для гифок */
     z-index: 0; /* За основным контентом */
+
 }
 
 .main-content {
@@ -112,10 +115,6 @@ h2 {
 .data-table tr:hover {
     background-color: #e0f7fa; /* Цвет фона при наведении на строку */
     transition: background-color 0.3s; /* Плавный переход цвета */
-}
-
-#table-over-container {
-    padding-left: 2%;
 }
 
 header {
