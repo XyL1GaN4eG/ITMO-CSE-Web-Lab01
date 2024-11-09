@@ -1,3 +1,4 @@
+[![wakatime](https://wakatime.com/badge/github/XyL1GaN4eG/ITMO-CSE-Web-Lab01.svg)](https://wakatime.com/badge/github/XyL1GaN4eG/ITMO-CSE-Web-Lab01)
 # Java FastCGI Web Application
 
 ## Описание
