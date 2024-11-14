@@ -24,7 +24,7 @@ public class ResponseSender {
 
     public void sendError(OutputStream outStream, String message) throws IOException {
         Properties headers = new Properties();
-        headers.put("Content-Type", "text/html"); // Устанавливаем Content-Type на text/html
+        headers.put("Content-Type", "text/html");
         headers.put("Content-Length", String.valueOf(message.getBytes(StandardCharsets.UTF_8).length));
 
         sendBuiltResponse(outStream, headers, message);
@@ -35,7 +35,7 @@ public class ResponseSender {
         for (String key : headers.stringPropertyNames()) {
             headerBuilder.append(key).append(": ").append(headers.getProperty(key)).append("\r\n");
         }
-        headerBuilder.append("\r\n"); // Завершаем заголовки пустой строкой
+        headerBuilder.append("\r\n");
         outStream.write(headerBuilder.toString().getBytes());
         outStream.write(message.getBytes(StandardCharsets.UTF_8));
         outStream.flush();

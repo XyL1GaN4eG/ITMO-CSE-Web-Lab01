@@ -7,25 +7,22 @@ window.onload = function() {
         let randomX, randomY;
 
         while (!positionFound) {
-            // Генерация случайных координат
             randomX = Math.random() * (window.innerWidth - gifSize);
             randomY = Math.random() * (window.innerHeight - gifSize);
 
-            // Проверка на пересечение
             positionFound = true;
             gifs.forEach(otherGif => {
                 if (otherGif !== gif) {
                     const otherX = parseFloat(otherGif.style.left) || 0;
                     const otherY = parseFloat(otherGif.style.top) || 0;
 
-                    // Проверка на пересечение
                     if (
                         randomX < otherX + gifSize &&
                         randomX + gifSize > otherX &&
                         randomY < otherY + gifSize &&
                         randomY + gifSize > otherY
                     ) {
-                        positionFound = false; // Если пересекается, ищем новые координаты
+                        positionFound = false;
                     }
                 }
             });

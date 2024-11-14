@@ -9,8 +9,8 @@ body {
     font-family: Arial, sans-serif;
     background-image: url('resources/background.gif');
     background-size: cover;
-    background-position: center; /* Центрирование фона по горизонтали */
-    background-repeat: repeat; /* Отключение повторения фона */
+    background-position: center;
+    background-repeat: repeat;
 
     height: 100vh;
     padding: 0;
@@ -19,13 +19,12 @@ body {
 
 .gifs {
     position: absolute;
-    z-index: -10; /* За основным контентом */
+    z-index: -10;
 }
 
 .gifs img {
-    position: absolute; /* Устанавливаем абсолютное позиционирование для гифок */
-    z-index: 0; /* За основным контентом */
-
+    position: absolute;
+    z-index: 0;
 }
 
 .main-content {
@@ -35,7 +34,6 @@ body {
 .control-block {
     width: 40%;
     margin: 5%;
-    /*padding: 25% 3% 3%;*/
 }
 
 #graphBlock {
@@ -50,8 +48,6 @@ h2 {
 }
 
 #reset-btn {
-    /*text-align: right;*/
-    /*padding: 5% 10%;*/
     float: right;
 }
 
@@ -68,24 +64,23 @@ h2 {
 .error-message {
     color: red;
     font-size: 15px;
-    display: none; /* Скрываем по умолчанию */
+    display: none;
     margin-top: 5px;
 }
 
 .invalid {
-    /* Красная рамка для некорректных полей */
     border-color: red;
 }
 
 #table-container {
     max-height: 300px;
-    max-width: 600px; /* Установите максимальную ширину */
-    width: 100%; /* Позволяет контейнеру занимать всю доступную ширину */
+    max-width: 600px;
+    width: 100%;
     overflow-y: auto;
-    background: #ffffff; /* Цвет фона контейнера */
-    border-radius: 8px; /* Закругляем углы */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Добавляем тень */
-    margin: auto; /* Центрируем контейнер */
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
 }
 
 .data-table {
@@ -94,27 +89,27 @@ h2 {
 }
 
 .data-table th, .data-table td {
-    border: 1px solid #ddd; /* Легче границы для ячеек */
-    padding: 12px; /* Увеличиваем отступы внутри ячеек */
+    border: 1px solid #ddd;
+    padding: 12px;
     text-align: left;
 }
 
 .data-table th {
-    background-color: #9933FF; /* Цвет фона шапки */
-    color: white; /* Цвет текста шапки */
-    position: sticky; /* Делаем шапку фиксированной */
-    top: 0; /* Привязываем шапку к верхней части контейнера */
-    z-index: 10; /* Устанавливаем z-index, чтобы шапка была поверх других элементов */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для шапки */
+    background-color: #9933FF;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .data-table tr:nth-child(even) {
-    background-color: #f2f2f2; /* Цвет фона для четных строк */
+    background-color: #f2f2f2;
 }
 
 .data-table tr:hover {
-    background-color: #e0f7fa; /* Цвет фона при наведении на строку */
-    transition: background-color 0.3s; /* Плавный переход цвета */
+    background-color: #e0f7fa;
+    transition: background-color 0.3s;
 }
 
 header {
@@ -141,36 +136,32 @@ header span {
     white-space: nowrap;
 }
 
-/* Основной контейнер для окна */
 .macos-window {
     width: 500px;
     height: 480px;
-    background-color: white; /* Белый фон окна */
-    border-radius: 10px; /* Закругленные углы */
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1), /* Тень под окном */
-    0px 2px 4px rgba(0, 0, 0, 0.06); /* Вторая, более мягкая тень */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1),
+    0px 2px 4px rgba(0, 0, 0, 0.06);
     overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     position: relative;
 }
 
-/* Заголовок окна с иконками закрытия, свернуть и развернуть */
 .macos-title-bar {
     display: flex;
     align-items: center;
-    background-color: #f5f5f7; /* Светло-серый цвет заголовка */
+    background-color: #f5f5f7;
     height: 32px;
     padding: 0 10px;
-    border-bottom: 1px solid #e0e0e0; /* Граница внизу заголовка */
+    border-bottom: 1px solid #e0e0e0;
 }
 
-/* Иконки управления окном */
 .macos-control-buttons {
     display: flex;
     gap: 6px;
 }
 
-/* Стили для каждой кнопки */
 .macos-control-button {
     width: 12px;
     height: 12px;
@@ -178,12 +169,10 @@ header span {
     display: inline-block;
 }
 
-/* Индивидуальные цвета кнопок */
 .macos-close { background-color: #ff605c; }
 .macos-minimize { background-color: #ffbd44; }
 .macos-fullscreen { background-color: #00ca4e; }
 
-/* Контент окна */
 .macos-content {
     padding: 20px;
     height: calc(100% - 32px); /* Высота с учетом заголовка */

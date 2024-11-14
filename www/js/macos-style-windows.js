@@ -1,6 +1,5 @@
 document.querySelectorAll('.mac-os-control-wrapper').forEach((contentWrapper) => {
 
-    try {
         // Создаем основной контейнер окна
         const macWindow = document.createElement('div');
         macWindow.classList.add('macos-window');
@@ -38,7 +37,4 @@ document.querySelectorAll('.mac-os-control-wrapper').forEach((contentWrapper) =>
 
         // Добавляем элементы в macOS-окно
         macWindow.append(titleBar, contentContainer);
-    } catch {
-        // console.log()
-    }
 });
